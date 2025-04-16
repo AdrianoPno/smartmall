@@ -7,8 +7,4 @@ import { initializeFirebase } from './config/firebase.config';
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, UsersModule],
 })
-export class AppModule {
-  constructor() {
-    initializeFirebase();
-  }
-}
+export class AppModule {}

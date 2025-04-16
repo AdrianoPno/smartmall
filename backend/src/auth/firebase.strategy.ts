@@ -11,6 +11,7 @@ export class FirebaseAuthGuard implements CanActivate {
     const authHeader = request.headers['authorization'];
 
     if (!authHeader?.startsWith('Bearer ')) {
+      console.warn('❌ Cabeçalho Authorization ausente ou malformado');
       return false;
     }
 
@@ -19,8 +20,10 @@ export class FirebaseAuthGuard implements CanActivate {
     try {
       const decoded = await this.authService.verifyToken(token);
       request['user'] = decoded;
+      console.log('✅ Usuário autenticado:', decoded.email || decoded.uid);
       return true;
-    } catch {
+    } catch (err: any) {
+      console.warn('❌ Token inválido:', err?.message || err);
       return false;
     }
   }

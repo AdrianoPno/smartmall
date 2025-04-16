@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>SmartMall - Login via Firebase</title>
+</head>
+<body>
+  <h1>Login via Firebase Custom Token</h1>
+
+  <label for="email">Digite seu e-mail:</label><br />
+  <input id="email" type="email" placeholder="teste@smartmall.com" />
+  <button onclick="autenticar()">Entrar</button>
+
+  <h2>🔐 ID Token:</h2>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
+    import {
+      getAuth,
+      signInWithCustomToken,
+    } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
+
+    // ✅ Substitua por este config EXATO se tiver recriado o app no Firebase Console
+    const firebaseConfig = {
+      apiKey: 'AIzaSyDFU4cdBR7kBmysE8wKVoRwErRpgXj9Hwk',
+      authDomain: 'smartmall-dev.firebaseapp.com',
+      projectId: 'smartmall-dev',
+      storageBucket: 'smartmall-dev.appspot.com',
+      messagingSenderId: '226033756344',
+      appId: '1:226033756344:web:31efab16259612c5716c4d',
+      measurementId: 'G-1LDSMTK8X4',
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    async function autenticar() {
+      const email = document.getElementById('email').value;
+      if (!email) {
+        alert('Informe um e-mail');
+        return;
+      }
+
+      try {
+        console.log('📨 Solicitando custom token para:', email);
+
+        const res = await fetch('http://localhost:3000/auth/custom-token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+
+        if (!data.token) {
+          alert('Erro ao gerar custom token: ' + data.error);
+          return;
+        }
+
+        const userCred = await signInWithCustomToken(auth, data.token);
+        const idToken = await userCred.user.getIdToken();
+
+        document.getElementById('output').innerText = idToken;
+        console.log('✅ Usuário autenticado:', userCred.user.email);
+      } catch (err) {
+        if (err instanceof Error) {
+          console.error('❌ Erro:', err.message);
+          alert('Erro: ' + err.message);
+        } else {
+          console.error('❌ Erro desconhecido:', err);
+        }
+      }
+    }
+
+    // 🔓 Expondo para o botão funcionar com onclick
+    window.autenticar = autenticar;
+  </script>
+</body>
+</html>

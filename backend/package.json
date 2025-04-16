@@ -1,10 +1,13 @@
 {
   "name": "smartmall",
   "version": "1.0.0",
-  "description": "API de central de clientes para shopping - projeto de estudo",
-  "main": "dist/main.js",
+  "description": "Projeto de estudo inspirado em vaga real (Ancar Ivanhoe), com foco em NestJS, arquitetura modular, Firebase Auth e boas práticas de desenvolvimento.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
-    "start:dev": "nest start --watch",
+    "start": "node dist/main.js",
     "dev": "nest start --watch",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -14,6 +17,9 @@
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "@nestjs/common": "^11.0.17",
     "@nestjs/config": "^4.0.2",
@@ -22,6 +28,7 @@
     "@nestjs/platform-express": "^11.0.17",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "firebase": "^11.6.0",
     "firebase-admin": "^13.2.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
@@ -29,11 +36,11 @@
   "devDependencies": {
     "@nestjs/cli": "^11.0.6",
     "@types/express": "^5.0.1",
-    "@types/jest": "^29.5.12",
-    "eslint": "^8.57.0",
+    "@types/jest": "^29.5.14",
+    "eslint": "^9.24.0",
     "jest": "^29.7.0",
-    "prettier": "^3.2.5",
-    "ts-jest": "^29.1.1",
-    "typescript": "^5.4.2"
+    "prettier": "^3.5.3",
+    "ts-jest": "^29.3.2",
+    "typescript": "^5.8.3"
   }
 }
